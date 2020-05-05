@@ -11,19 +11,37 @@ const io = socketio(server);
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-const userName="Bot";
+// const userName="Bot";
 
 // Run when client connects
 io.on('connection', socket => {
+
+  socket.on('join',({username})=>{
  // Welcome current user
- socket.emit('message',formatMsg(userName,'Welcome to chat App'));
+ socket.emit('message',formatMsg('Bot',`${username} Welcome to chat App`));
 
  // Broadcast when a user connects
-socket.broadcast.emit('message',formatMsg(userName,"A user has joined the chat..."));
+socket.broadcast.emit('message',formatMsg('Bot',`${username}  has joined the chat...`));
+
+//send personal message
+socket.join(username);
+  })
+
 
 // Listen for chatMessage
-socket.on('chatMessage',(msg)=>{
-  io.emit('message',formatMsg('USER',msg));
+socket.on('chatMessage',({msg,user})=>{
+  console.log(msg);
+  if(msg.includes("@")){
+    let firstIndex=msg.indexOf("@");
+    let lastIndex=msg.indexOf(" ");
+    let username=msg.substring(firstIndex+1,lastIndex);
+   // msg=msg.substring(msg.indexOf("@") + str.indexOf(" "));
+    io.in(username).emit('new_msg', formatMsg(username,msg));
+
+  }else{
+    io.emit('message',formatMsg(user,msg));
+  }
+ 
 })
 
  // Runs when client disconnects

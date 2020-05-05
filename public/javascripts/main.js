@@ -23,6 +23,13 @@ socket.on('message',mes=>{
   chatMessages.scrollTop = chatMessages.scrollHeight;
 })
 
+//to primate message
+socket.on("new_msg", mes=> {
+    outputMessage(mes);
+         // Scroll down
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+
 
 //submit message
 chartForm.addEventListener('submit',e=>{
@@ -31,7 +38,7 @@ chartForm.addEventListener('submit',e=>{
     const msg=e.target.elements.msg.value;
     console.log(msg);
     //emit msg to server
-    socket.emit('chatMessage',msg);
+    socket.emit('chatMessage',{msg:msg,user:username});
 
     e.target.elements.msg.value = '';
     e.target.elements.msg.focus();
