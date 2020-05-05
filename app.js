@@ -25,6 +25,11 @@ socket.broadcast.emit('message',formatMsg('Bot',`${username}  has joined the cha
 
 //send personal message
 socket.join(username);
+
+ // Runs when client disconnects
+socket.on('disconnect',()=>{
+  io.emit('message',formatMsg('Bot',`${username} has left the chat...`));
+})
   })
 
 
@@ -44,10 +49,8 @@ socket.on('chatMessage',({msg,user})=>{
  
 })
 
- // Runs when client disconnects
-socket.on('disconnect',()=>{
-  io.emit('message','A user has left the chat...');
-})
+
+
 
 })
    
