@@ -41,7 +41,7 @@ socket.on('chatMessage',({msg,user})=>{
     let lastIndex=msg.indexOf(" ");
     let username=msg.substring(firstIndex+1,lastIndex);
    // msg=msg.substring(msg.indexOf("@") + str.indexOf(" "));
-    io.in(username).emit('new_msg', formatMsg(username,msg));
+    io.to(username).to(user).emit('new_msg', formatMsg(user,msg));
 
   }else{
     io.emit('message',formatMsg(user,msg));
@@ -67,6 +67,6 @@ socket.on('chatMessage',({msg,user})=>{
  
 
 
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 9009;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
