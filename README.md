@@ -18,3 +18,12 @@ A chat app where you can chat with your friends in a group and also send private
 
 ## Private message visible to that user only
 ![message](https://github.com/RISHU-GUPTA/ChatApp/blob/master/utils/privateDelieverd.png)
+
+# How to Run local server
+  ```
+  npm install
+  ```
+  ```
+  npm start
+  ```
+Server started on Port number 9009
